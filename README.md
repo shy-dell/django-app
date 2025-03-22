@@ -3,4 +3,6 @@ Learn Django via tutorial
 
 
 -- Install Django --
-$ python -m pip install Django
+python3 -m venv .venv
+python3 -m pip install Django
+source .venv/bin/activate
