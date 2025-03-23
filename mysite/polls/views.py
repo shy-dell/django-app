@@ -1,34 +1,30 @@
 from django.db.models import F
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.template import loader
+from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.views import generic
 
 from .models import Choice, Question
 
-def index(request):
-    latest_question_list = Question.objects.order_by("-pub_date")[:5]
-    context = {"latest_question_list": latest_question_list,}
-    return render(request, "polls/index.html", context)
+class IndexView(generic.ListView):
+    template_name = "polls/index.html"
+    context_object_name = "latest_question_list"
+    
+    def get_queryset(self):
+        """Return the last 4 published quesitons."""
+        return Question.objects.order_by("-pub_date")[:5]
+    
     #render takes request object, template name, then dictionary as arguments
 
 
 # Create your views here.
-# def index(request):
-#     return HttpResponse("Hello, world. You're at the polls index")
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = "polls/detail.html"
 
-def detail(request, question_id):
-    # Use the Django Http404 shortcut 'get_object_or_404() instead of the below
-    # try:
-    #     question = Question.objects.get(pk=question_id)
-    # except Question.DoesNotExist:
-    #     raise Http404("Question does not exist")
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, "polls/detail.html", {"question":question})
-
-def results(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, "polls/results.html", {"question": question})
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = "polls/results.html"
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
