@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
+from django.utils import timezone
 
 from .models import Choice, Question
 
@@ -12,9 +13,7 @@ class IndexView(generic.ListView):
     
     def get_queryset(self):
         """Return the last 4 published quesitons."""
-        return Question.objects.order_by("-pub_date")[:5]
-    
-    #render takes request object, template name, then dictionary as arguments
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
 
 # Create your views here.
