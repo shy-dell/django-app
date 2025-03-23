@@ -139,6 +139,6 @@ class QuestionResultViewTests(TestCase):
         The results view of a question with a pub_date in the past displays the results.
         """
         past_question = create_question(question_text="Past question.", days=-5)
-        url = reverse("polls:requests",args=(future_question.id,))
+        url = reverse("polls:requests",args=(past_question.id,))
         response = self.Client.get(url)
         self.assertContains(response, past_question.question_text)
