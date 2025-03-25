@@ -14,5 +14,7 @@ class QuestionAdmin(admin.ModelAdmin):
     ]
     inlines = [ChoiceInLine]
     list_display = ["question_text","pub_date","was_published_recently"]
+    # displays the questions, date published and boolean of was_published_recently in questions view
+    list_filter = ["pub_date"] #create list filter on pub date
 
 admin.site.register(Question, QuestionAdmin)

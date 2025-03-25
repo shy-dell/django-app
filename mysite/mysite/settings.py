@@ -55,7 +55,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"], # use a template, DIRS is a list of filesystem directories to check when loading DJ templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
